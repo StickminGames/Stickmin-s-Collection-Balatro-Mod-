@@ -1294,7 +1294,7 @@ SMODS.Consumable{
 		text = { "Upgrades Steve by {X:red,C:white}X2{} mult" }
 	},
 	atlas = 'ores',
-	pos = {x = 1, y = 1},
+	pos = {x = 3, y = 1},
 	can_use = function(self,card)	
 		for i,v in ipairs(G.jokers.cards) do
 			if G.jokers.cards[i].config.center.key == "j_stickmin_steve" then
@@ -1612,4 +1612,5 @@ SMODS.Tag {
 }
 function SMODS.current_mod.reset_game_globals(run_start)
 	resetbombrank()
+
 end
