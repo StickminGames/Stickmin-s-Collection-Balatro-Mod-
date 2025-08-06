@@ -1,2 +1,2 @@
-Extract everything to your Balatro Mod folder
-you need Talisman, Lovely, and Steamodded
+Extract everything to your Balatro Mod folder.
+You need Talisman, Lovely, and Steamodded
