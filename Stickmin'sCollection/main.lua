@@ -1521,25 +1521,6 @@ SMODS.Joker{
 	rarity = 2,
 	config = {extra = {bomb_rounds = 999, total_rounds = 0}},
 	loc_vars = function(self, info_queue, card)
-		local main_end = nil
-		if card.area and (card.area == G.jokers) then
-			local detonating = card.ability.extra.total_rounds == card.ability.extra.bomb_rounds
-			main_end = {
-				{
-					n = G.UIT.C,
-					config = {align = 'bm', minh = 0.4},
-					nodes = {
-						{
-							n = G.UIT.T,
-							config = {ref_table = card, align = "m", colour = HEX('000000'), r = 0.05, padding = 0.06},
-							nodes = {
-								{ n = G.UIT.T, config = {text = ' '..((detonating and 'SELL NOW') or 'youre fine :)')..' ', colour = G.C.UI.TEXT_LIGHT, scale = 0.32 * 0.9} }
-							}
-						}
-					}
-				}
-			}
-		end
         return { main_end = main_end, vars = {
 			card.ability.extra.total_rounds,
 			card.ability.extra.bomb_rounds
@@ -1614,3 +1595,4 @@ function SMODS.current_mod.reset_game_globals(run_start)
 	resetbombrank()
 
 end
+
