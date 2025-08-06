@@ -1505,7 +1505,16 @@ local function resetbombrank()
         G.GAME.current_round.stickmin_kaboom_card.id = bomb_card.base.id
     end
 end
-
+SMODS.Challenge{
+	key = 'explosive',
+	loc_txt = {
+		name = 'Explosive'
+	},
+	jokers = {
+		{ id = 'j_stickmin_kaboom', stickers = {'eternal'}},
+		{ id = 'j_stickmin_boomies' }
+	}
+}
 SMODS.Joker{
 	key = 'boomies',
 	atlas = 'atlaskib',
@@ -1595,4 +1604,3 @@ function SMODS.current_mod.reset_game_globals(run_start)
 	resetbombrank()
 
 end
-
