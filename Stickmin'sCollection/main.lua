@@ -452,7 +452,59 @@ SMODS.Back{
         }))
     end
 }
-
+SMODS.Atlas{
+	key = 'broke',
+	path = 'Broken Deck.png',
+	px = 71,
+	py = 95
+}
+SMODS.Back{
+    name = "BROKEN DECK",
+    key = "woahd",
+	atlas = 'broke',
+    pos = {x = 0, y = 0},
+    config = {only_one_rank = '4'},
+    loc_txt = {
+        name ="OmegaNum Deck",
+        text={
+            "Start with a Deck",
+            "full of {X:edition}Polychrome{} {C:attention}Steel Red Seal Kings of Spades{},",
+			"{C:attention}Effarcire{}, {C:attention}9000 Joker slots{},",
+			"{C:attention}Baron{}, {C:attention}Mime{},",
+			"{C:mult}100 discards{}, {C:chips}100 hands{}, and",
+			"{C:attention}52 Card selection limit{},",
+			"{C:mult}X10{} Blind requirement and",
+			"Blinds scale 5X faster"
+        },
+    },
+	discovered = true,
+    apply = function(self, back)
+		G.GAME.starting_params.hands = 100
+		G.GAME.starting_params.discards = 100
+		G.GAME.starting_params.joker_slots = 9000
+		G.GAME.starting_params.ante_scaling = 10
+		G.GAME.modifiers.scaling = (G.GAME.modifiers.scaling or 1) + 3
+        G.E_MANAGER:add_event(Event({
+            func = function()
+            	SMODS.destroy_cards(G.playing_cards)
+				for i=#G.playing_cards, 1, -1 do
+				    G.playing_cards[i]:remove()
+				end
+				for i = 1, 52, 1 do
+					local card = SMODS.add_card{set = "Base", enhancement = "m_steel", rank = "King", suit = "Spades", area = G.deck}
+					card:set_seal("Red", true, true)
+					card:set_edition("e_polychrome", true, true)
+				end
+				SMODS.add_card{key = 'j_cry_effarcire', set = 'Jokers', area = G.jokers}
+				SMODS.add_card{key = 'j_baron', set = 'Jokers', area = G.jokers}
+				SMODS.add_card{key = 'j_mime', set = 'Jokers', area = G.jokers}
+				SMODS.change_play_limit(52)
+				SMODS.change_discard_limit(52)
+                return true
+            end
+        }))
+    end,
+}
 SMODS.Consumable{
 	key = 'reallygood',
 	set = 'Helios',
