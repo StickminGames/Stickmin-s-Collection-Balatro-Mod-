@@ -474,7 +474,8 @@ SMODS.Back{
 			"{C:mult}100 discards{}, {C:chips}100 hands{}, and",
 			"{C:attention}52 Card selection limit{},",
 			"{C:mult}X10{} Blind requirement and",
-			"Blinds scale 5X faster"
+			"Blinds scale {C:attention}5X{} faster",
+			"{C:inactive}(Must have Cryptid){}"
         },
     },
 	discovered = true,
@@ -482,8 +483,8 @@ SMODS.Back{
 		G.GAME.starting_params.hands = 100
 		G.GAME.starting_params.discards = 100
 		G.GAME.starting_params.joker_slots = 9000
-		G.GAME.starting_params.ante_scaling = 10
-		G.GAME.modifiers.scaling = (G.GAME.modifiers.scaling or 1) + 3
+		G.GAME.starting_params.ante_scaling = 1000
+		G.GAME.modifiers.scaling = (G.GAME.modifiers.scaling or 1) * 100
         G.E_MANAGER:add_event(Event({
             func = function()
             	SMODS.destroy_cards(G.playing_cards)
@@ -504,6 +505,45 @@ SMODS.Back{
             end
         }))
     end,
+}
+SMODS.Atlas{
+	key = 'stake',
+	px = 29,
+	py = 29,
+	path = 'stake.png'
+}
+SMODS.Atlas{
+	key = 'sticker',
+	px = 71,
+	py = 95,
+	path = 'sticker.png'
+}
+SMODS.Stake {
+    name = "OmegaNum Stake",
+    key = "omegstake",
+	loc_txt = {
+		name = 'OmegaNum Stake',
+		text = {
+			'Blinds scale {C:attention}1,000X{} faster',
+			"{C:inactive}(I hope you're playing on OmegaNum Deck...)"
+		},
+		sticker = {
+			name = 'OmegaNum Sticker',
+			text = {
+				"Used this joker to win",
+				"on OmegaNum Stake"
+			}
+		}
+	},
+	atlas = 'stake',
+    pos = { x = 0, y = 0 },
+	applied_stakes = {"white"},
+	sticker_atlas = 'sticker',
+    sticker_pos = { x = 0, y = 0 },
+    modifiers = function()
+        G.GAME.modifiers.scaling = (G.GAME.modifiers.scaling or 1) + 999
+    end,
+    colour = G.C.EDITION,
 }
 SMODS.Consumable{
 	key = 'reallygood',
@@ -1304,7 +1344,7 @@ SMODS.Consumable{
 	use = function(self, card, area, copier)
 		G.jokers.config.card_limit = G.jokers.config.card_limit - 1
 		G.consumeables.config.card_limit = G.consumeables.config.card_limit + 1
-		if to_big(#G.consumeables.cards) + 1 < G.consumeables.config.card_limit then
+		if to_big(#G.consumeables.cards) + 1 < to_big(G.consumeables.config.card_limit) then
 			SMODS.add_card{set = 'Spectral'}
 			SMODS.add_card{set = 'Spectral'}
 		end
@@ -1563,7 +1603,7 @@ SMODS.Challenge{
 		name = 'Explosive'
 	},
 	jokers = {
-		{ id = 'j_stickmin_kaboom', stickers = {'eternal'}},
+		{ id = 'j_stickmin_kaboom', eternal = true},
 		{ id = 'j_stickmin_boomies' }
 	}
 }
@@ -1588,7 +1628,7 @@ SMODS.Joker{
 		} }
     end,
 	set_ability = function(self, card, initial, delay_sprites)
-		card.ability.extra.bomb_rounds = pseudorandom('bomb', 2, 10)
+		card.ability.extra.bomb_rounds = pseudorandom('bomb', 0, 10)
 		card.ability.extra.total_rounds = 0
 	end,
 	calculate = function(self, card, context)
