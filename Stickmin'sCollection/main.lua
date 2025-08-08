@@ -217,12 +217,18 @@ SMODS.UndiscoveredSprite{
     pos = {x = 1, y = 0},
     overlay_pos = {x = 2, y = 0}
 }
-
+SMODS.Atlas{
+	key = 'newtex',
+	px = 71,
+	py = 95,
+	path = 'revtex.png'
+}
 SMODS.Consumable{
 	key = 'Kronos', --key
 	set = 'Helios', --the set of the card: corresponds to a consumable type
-	atlas = 'KRONOS', --atlas
-	pos = {x = 0, y = 0}, --position in atlas
+	atlas = 'newtex', --atlas
+	pos = {x = 3, y = 0}, --position in atlas
+	soul_pos = {x = 2, y = 0},
 	loc_txt = {
 		name = 'Kronos', --name of card
 		text = { --text of card
@@ -231,7 +237,7 @@ SMODS.Consumable{
 		}
 	},
 	hidden = true,
-	soul_rate = 0.03,
+	soul_rate = 0.01,
 	can_use = function(self,card)
 		return G.jokers and #G.jokers.cards < G.jokers.config.card_limit
 	end,
@@ -895,8 +901,9 @@ if SMODS.current_mod.config.unfair_stuff then
 		config = { extra = { mult = 2, mult_gain = 10 } },
 		rarity = 4,
 		tags = { brainrot = true },
-		atlas = 'atlaskib',
-		pos = { x = 0, y = 1 },
+		atlas = 'newtex',
+		pos = { x = 1, y = 0 },
+		soul_pos = {x = 0, y = 0},
 		cost = 10,
 		loc_vars = function(self, info_queue, card)
 			card.ability.extra = card.ability.extra or {}
